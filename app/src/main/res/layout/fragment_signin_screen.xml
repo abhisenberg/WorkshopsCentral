@@ -14,8 +14,11 @@
         android:layout_marginTop="10dp"
         android:inputType="textEmailAddress"
         android:layout_gravity="center"
+        android:background="@drawable/etbox_modified_states"
+        android:padding="10dp"
+        android:layout_height="50dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        />
 
     <EditText
         android:id="@+id/et_pw"
@@ -24,15 +27,23 @@
         android:layout_marginTop="10dp"
         android:hint="Password"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:padding="10dp"
+        android:background="@drawable/etbox_modified_states"
+        android:layout_height="50dp" />
 
     <Button
         android:id="@+id/bt_signin"
         android:text="Login"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
         android:layout_gravity="center"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:background="@drawable/button_signin"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:textColor="#FFF"
+        android:textStyle="bold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
 
     <TextView
         android:id="@+id/tv_registerText"
@@ -47,7 +58,12 @@
         android:id="@+id/bt_noAccount"
         android:text="Create Account"
         android:layout_gravity="center"
-        android:layout_width="wrap_content"
+        android:layout_marginStart="15dp"
+        android:background="@drawable/button_signin"
+        android:layout_marginEnd="15dp"
+        android:textColor="#FFF"
+        android:textStyle="bold"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
 </LinearLayout>

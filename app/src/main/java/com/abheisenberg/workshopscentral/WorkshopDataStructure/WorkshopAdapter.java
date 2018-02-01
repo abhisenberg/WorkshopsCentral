@@ -49,7 +49,7 @@ public class WorkshopAdapter extends RecyclerView.Adapter<WorkshopAdapter.Worksh
     public void showWS(){
         DBHandler dbHandler = new DBHandler(context);
         this.wsList = (ArrayList<Workshop>) dbHandler.getAllWs();
-        Toast.makeText(context, "New size "+wsList.size(), Toast.LENGTH_SHORT).show();
+//        Toast.makeText(context, "New size "+wsList.size(), Toast.LENGTH_SHORT).show();
         Log.d(TAG, "updateArticles, new size: "+wsList.size());
         notifyDataSetChanged();
     }

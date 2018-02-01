@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.app.FragmentTransaction;
 import android.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -85,20 +86,41 @@ public class SigninFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onClick(View view) {
         int id = view.getId();
+
+        fTrans = getFragmentManager().beginTransaction();
+
         switch(id){
             case R.id.bt_signin:
-                if(pref.checkAccount(et_email.getText().toString(), et_pw.getText().toString())){
-                    pref.login();
-                } else {
-                    Toast.makeText(getActivity(), "Please register first!", Toast.LENGTH_SHORT).show();
-                }
-                getFragmentManager().popBackStack();
-                break;
+               if(validateForm()){
+                   if(pref.checkAccount(et_email.getText().toString(), et_pw.getText().toString())){
+                       pref.login();
+                   } else {
+                       Toast.makeText(getActivity(), "Please register first!", Toast.LENGTH_SHORT).show();
+                       fTrans.replace(R.id.fragment, new RegisterFragment()).commit();
+                   }
+                   getFragmentManager().popBackStack();
+
+               }
+               break;
             case R.id.bt_noAccount:
                 fTrans.replace(R.id.fragment, new RegisterFragment());
                 fTrans.commit();
                 break;
         }
+    }
+
+    public boolean validateForm(){
+        boolean isValid = true;
+
+        if(TextUtils.isEmpty(et_email.getText().toString())){
+            et_email.setError("Required");
+            isValid = false;
+        }
+        if(TextUtils.isEmpty(et_pw.getText().toString())){
+            et_pw.setError("Required");
+            isValid = false;
+        }
+        return isValid;
     }
 
     /**

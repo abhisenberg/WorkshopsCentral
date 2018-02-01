@@ -6,6 +6,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -84,16 +85,51 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
+
         if(view.getId() == R.id.bt_register){
-            pref.createLoginSession(et_nameR.getText().toString(),
-                    et_phoneR.getText().toString(),
-                    et_emailR.getText().toString(),
-                    et_pwR.getText().toString());
-            getFragmentManager().beginTransaction()
-                    .remove(this)
-                    .commit();
-            getFragmentManager().popBackStack();
+
+            if(validateForm()){
+
+                FragmentTransaction fTrans = getFragmentManager().beginTransaction();
+
+                pref.createLoginSession(et_nameR.getText().toString(),
+                        et_phoneR.getText().toString(),
+                        et_emailR.getText().toString(),
+                        et_pwR.getText().toString());
+
+                fTrans.replace(R.id.fragment, new WelcomeFragment());
+                fTrans.commit();
+            }
+
         }
+    }
+
+    public boolean validateForm(){
+        boolean isValid = true;
+
+        if(TextUtils.isEmpty(et_emailR.getText().toString())){
+            et_emailR.setError("Required");
+            isValid = false;
+        }
+        if(TextUtils.isEmpty(et_phoneR.getText().toString())){
+            et_phoneR.setError("Required");
+            isValid = false;
+        }
+        if(TextUtils.isEmpty(et_nameR.getText().toString())){
+            et_nameR.setError("Required");
+            isValid = false;
+        }
+        if(TextUtils.isEmpty(et_pwR.getText().toString())){
+            et_pwR.setError("Required");
+            isValid = false;
+        }
+
+
+        return isValid;
+    }
+
+    public boolean isFragmentStackEmpty(){
+        return getFragmentManager().getBackStackEntryCount() == 0;
     }
 
     /**

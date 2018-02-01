@@ -37,8 +37,7 @@ public class WelcomeFragment extends Fragment implements View.OnClickListener {
     }
 
     private View rootView;
-    private Button bt_seeallws, bt_signout;
-    private TextView tv_signin, tv_register;
+    private Button bt_seeallws, bt_signout, bt_signinW, bt_registerW;
     private LinearLayout ll_signin, ll_register;
     private FragmentTransaction fTrans;
     private UserSharedPref pref;
@@ -55,10 +54,10 @@ public class WelcomeFragment extends Fragment implements View.OnClickListener {
             Log.d("welcome ", "rootview is null ");
         }
 
-        tv_register = (TextView) rootView.findViewById(R.id.tv_register);
+        bt_registerW = (Button) rootView.findViewById(R.id.bt_registerW);
         bt_seeallws = (Button) rootView.findViewById(R.id.bt_showList);
-        bt_signout = (Button) rootView.findViewById(R.id.bt_signout);
-        tv_signin = (TextView) rootView.findViewById(R.id.tv_signin);
+        bt_signout = (Button) rootView.findViewById(R.id.bt_signoutW);
+        bt_signinW = (Button) rootView.findViewById(R.id.bt_signinW);
         ll_register = (LinearLayout) rootView.findViewById(R.id.registerthings);
         ll_signin = (LinearLayout) rootView.findViewById(R.id.signinthings);
 
@@ -68,8 +67,8 @@ public class WelcomeFragment extends Fragment implements View.OnClickListener {
 
         bt_seeallws.setOnClickListener(this);
         bt_signout.setOnClickListener(this);
-        tv_signin.setOnClickListener(this);
-        tv_register.setOnClickListener(this);
+        bt_registerW.setOnClickListener(this);
+        bt_signinW.setOnClickListener(this);
 
         return rootView;
     }
@@ -115,6 +114,7 @@ public class WelcomeFragment extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         int id = view.getId();
 
+        fTrans = getFragmentManager().beginTransaction();
         Fragment nextFrag = null;
 
         switch (id){
@@ -122,15 +122,16 @@ public class WelcomeFragment extends Fragment implements View.OnClickListener {
                 nextFrag = new WorkshopsListFragment();
                 break;
 
-            case R.id.tv_register:
+            case R.id.bt_registerW:
                 nextFrag = new RegisterFragment();
                 break;
 
-            case R.id.tv_signin:
+            case R.id.bt_signinW:
                 nextFrag = new SigninFragment();
                 break;
 
-            case R.id.bt_signout:
+            case R.id.bt_signoutW:
+                nextFrag = this;
                 if(pref.isLoggedIn()){
                     pref.signout();
                     Toast.makeText(getActivity(), "Signed out!", Toast.LENGTH_SHORT).show();
@@ -139,7 +140,6 @@ public class WelcomeFragment extends Fragment implements View.OnClickListener {
         }
 
         fTrans.replace(R.id.fragment, nextFrag);
-        fTrans.addToBackStack(null);
         fTrans.commit();
     }
 
