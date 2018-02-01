@@ -1,0 +1,106 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.abheisenberg.workshopscentral.WelcomeFragment">
+
+    <TextView
+        android:id="@+id/tv_titleworkshop"
+        android:text="Workshop\nCentral"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:layout_marginTop="100dp"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+   <LinearLayout
+       android:layout_below="@id/tv_titleworkshop"
+       android:layout_marginTop="60dp"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:orientation="vertical"
+       >
+
+       <Button
+           android:id="@+id/bt_showList"
+           android:layout_gravity="center"
+           android:text="@string/seeallws"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content" />
+
+       <LinearLayout
+           android:id="@+id/signinthings"
+           android:layout_marginTop="50dp"
+           android:orientation="horizontal"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content">
+
+           <TextView
+               android:layout_weight="0.2"
+               android:layout_width="0dp"
+               android:layout_height="wrap_content" />
+
+           <TextView
+               android:id="@+id/tv_signInText"
+               android:text="@string/signinText"
+               android:textSize="18sp"
+               android:layout_width="0dp"
+               android:layout_weight="1"
+               android:layout_height="wrap_content" />
+
+           <TextView
+               android:id="@+id/tv_signin"
+               android:textColor="@android:color/holo_blue_dark"
+               android:text="@string/signinNow"
+               android:layout_width="0dp"
+               android:textSize="18sp"
+               android:textStyle="italic"
+               android:layout_weight="1"
+               android:layout_height="wrap_content" />
+
+       </LinearLayout>
+
+       <LinearLayout
+           android:id="@+id/registerthings"
+           android:layout_marginTop="15dp"
+           android:orientation="horizontal"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content">
+
+           <TextView
+               android:layout_weight="0.2"
+               android:layout_width="0dp"
+               android:layout_height="wrap_content" />
+
+           <TextView
+               android:id="@+id/tv_registerText"
+               android:text="@string/registerText"
+               android:layout_width="0dp"
+               android:layout_weight="1"
+               android:textSize="18sp"
+               android:layout_height="wrap_content" />
+
+           <TextView
+               android:id="@+id/tv_register"
+               android:text="@string/register"
+               android:textColor="@android:color/holo_blue_dark"
+               android:layout_width="0dp"
+               android:layout_weight="1"
+               android:textStyle="italic"
+               android:textSize="18sp"
+               android:layout_height="wrap_content" />
+
+       </LinearLayout>
+
+   </LinearLayout>
+
+    <Button
+        android:id="@+id/bt_signout"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="Sign out"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>

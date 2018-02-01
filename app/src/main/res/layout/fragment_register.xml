@@ -1,0 +1,54 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_centerInParent="true"
+    android:layout_marginTop="70dp"
+    android:layout_marginLeft="20dp"
+    android:layout_marginRight="20dp"
+    tools:context="com.abheisenberg.workshopscentral.RegisterFragment">
+
+   <EditText
+       android:id="@+id/et_nameR"
+       android:hint="Name"
+       android:layout_gravity="center"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content" />
+
+   <EditText
+       android:id="@+id/et_phoneR"
+       android:hint="Phone no."
+       android:layout_marginTop="10dp"
+       android:inputType="number"
+       android:layout_gravity="center"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content" />
+
+   <EditText
+       android:id="@+id/et_emailR"
+       android:hint="Email"
+       android:layout_marginTop="10dp"
+       android:inputType="textEmailAddress"
+       android:layout_gravity="center"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content" />
+
+   <EditText
+       android:id="@+id/et_pwR"
+       android:inputType="textPassword"
+       android:layout_gravity="center"
+       android:layout_marginTop="10dp"
+       android:hint="Password"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content" />
+
+   <Button
+       android:id="@+id/bt_register"
+       android:text="@string/register"
+       android:layout_gravity="center"
+       android:layout_marginTop="50dp"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content" />
+
+</LinearLayout>
