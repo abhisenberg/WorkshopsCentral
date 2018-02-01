@@ -1,10 +1,10 @@
 package com.abheisenberg.workshopscentral;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.app.FragmentTransaction;
 import android.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,11 +15,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.abheisenberg.workshopscentral.DashboardAdapter.WorkshopAdapter_2;
 import com.abheisenberg.workshopscentral.SQLDatabaseWorkshops.DBHandler;
+import com.abheisenberg.workshopscentral.UserSharedPreferences.UserSharedPref;
 import com.abheisenberg.workshopscentral.WorkshopDataStructure.Workshop;
-import com.abheisenberg.workshopscentral.WorkshopDataStructure.WorkshopAdapter;
 
-import java.io.File;
 import java.util.ArrayList;
 
 import static android.content.ContentValues.TAG;
@@ -28,33 +28,69 @@ import static android.content.ContentValues.TAG;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link WorkshopsListFragment.OnFragmentInteractionListener} interface
+ * {@link DashboardFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
  */
-public class WorkshopsListFragment extends Fragment implements WorkshopAdapter.LoginFirst{
+public class DashboardFragment extends Fragment {
 
+    private RecyclerView rv_list_dash;
+    private View rootView;
+    private UserSharedPref pref;
+    private Button bt_dashback;
+    private DBHandler dbHandler;
     private OnFragmentInteractionListener mListener;
-    public static final String TAG = "listfrag";
-    public WorkshopsListFragment() {
+
+    public DashboardFragment() {
         // Required empty public constructor
     }
-
-    private View rootView;
-    private RecyclerView recyclerView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        rootView = inflater.inflate(R.layout.fragment_workshops_list, container, false);
+        rootView = inflater.inflate(R.layout.fragment_dashboard, container, false);
+        dbHandler = new DBHandler(getActivity());
+        bt_dashback = (Button) rootView.findViewById(R.id.dash_back);
+        rv_list_dash = (RecyclerView) rootView.findViewById(R.id.DashboardRV);
+        pref = new UserSharedPref(getActivity());
 
-        recyclerView = (RecyclerView) rootView.findViewById(R.id.rv_wslist);
-        WorkshopAdapter adapter = new WorkshopAdapter(getActivity(), new ArrayList<Workshop>(), this);
+        bt_dashback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getFragmentManager().beginTransaction()
+                        .setCustomAnimations(R.animator.fade_in, R.animator.fade_out)
+                        .replace(R.id.fragment, new WelcomeFragment())
+                        .commit();
+            }
+        });
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setAdapter(adapter);
+        /*
+        If the user is not logged in, just display an error message to login
+         */
 
-        adapter.showWS();
+        if(!pref.isLoggedIn()) {
+            Toast.makeText(getActivity(), "Please Login to view Dashboard!", Toast.LENGTH_SHORT).show();
+            return rootView;
+        }
+
+        /*
+        If the user is logged in, fetch the list of applied courses and display the list on the recycler view.
+        And the initialize the views.
+         */
+
+        ArrayList<Integer> applied = pref.getUserApplied(pref.getEmail());
+        if(applied.size() == 0)
+            Toast.makeText(getActivity(), "Not applied to any Workshop yet!", Toast.LENGTH_SHORT).show();
+        else {
+            ArrayList<Workshop> allws = new ArrayList<>();
+            for(int i=0; i<applied.size(); i++){
+                allws.add(dbHandler.getWSfromID(applied.get(i)));
+            }
+
+            WorkshopAdapter_2 adapter = new WorkshopAdapter_2( getActivity(),allws);
+            rv_list_dash.setLayoutManager(new LinearLayoutManager(getActivity()));
+            rv_list_dash.setAdapter(adapter);
+        }
 
         Log.d(TAG, "Fragments before this: "+getFragmentManager().getBackStackEntryCount());
 
@@ -84,17 +120,6 @@ public class WorkshopsListFragment extends Fragment implements WorkshopAdapter.L
         super.onDetach();
         mListener = null;
     }
-
-    @Override
-    public void loginBeforeApply() {
-        getFragmentManager().beginTransaction()
-                .setCustomAnimations(R.animator.fade_in, R.animator.fade_out)
-                .replace(R.id.fragment, new SigninFragment())
-                .addToBackStack(null)
-                .commit();
-    }
-
-
 
     /**
      * This interface must be implemented by activities that contain this

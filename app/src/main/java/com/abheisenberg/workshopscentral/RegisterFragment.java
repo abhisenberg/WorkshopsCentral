@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,8 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.abheisenberg.workshopscentral.UserSharedPreferences.UserSharedPref;
+
+import static android.content.ContentValues.TAG;
 
 
 /**
@@ -34,6 +37,11 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
     private EditText et_nameR, et_emailR, et_pwR, et_phoneR;
     private Button bt_register;
     private UserSharedPref pref;
+
+    /*
+    Simple registeration screen which has the required fields for entry and the form is then checked for empty strings.
+    If the user is not already a member, he is registered with a phone number and name and email.
+     */
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -97,6 +105,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                         et_emailR.getText().toString(),
                         et_pwR.getText().toString());
 
+                fTrans.setCustomAnimations(R.animator.fade_in, R.animator.fade_out);
                 fTrans.replace(R.id.fragment, new WelcomeFragment());
                 fTrans.commit();
             }

@@ -87,6 +87,22 @@ public class DBHandler extends SQLiteOpenHelper {
 
     }
 
+    public Workshop getWSfromID(int id){
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(TABLE_NAME, new String[] {
+                KEY_ID, KEY_TITLE, KEY_VENUE, KEY_DATE, KEY_FEES },
+                KEY_ID + "=?",
+                new String[] {String.valueOf(id)}, null,null,null,null
+        );
+
+        if(cursor != null){
+            cursor.moveToFirst();
+        }
+
+        return cursorToWs(cursor);
+    }
+
     public ArrayList<Workshop> getAllWs(){
         ArrayList<Workshop> list = new ArrayList<>();
         String selectq = "SELECT * FROM "+TABLE_NAME;

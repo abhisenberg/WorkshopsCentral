@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.app.FragmentTransaction;
 import android.app.Fragment;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.abheisenberg.workshopscentral.UserSharedPreferences.UserSharedPref;
+
+import static android.content.ContentValues.TAG;
 
 
 /**
@@ -55,6 +58,8 @@ public class SigninFragment extends Fragment implements View.OnClickListener{
 
         bt_signin.setOnClickListener(this);
         bt_createAccount.setOnClickListener(this);
+
+        Log.d(TAG, "Fragments before this: "+getFragmentManager().getBackStackEntryCount());
 
         return rootView;
     }
@@ -98,11 +103,15 @@ public class SigninFragment extends Fragment implements View.OnClickListener{
                        Toast.makeText(getActivity(), "Please register first!", Toast.LENGTH_SHORT).show();
                        fTrans.replace(R.id.fragment, new RegisterFragment()).commit();
                    }
-                   getFragmentManager().popBackStack();
+                   getFragmentManager().beginTransaction()
+                           .setCustomAnimations(R.animator.fade_in, R.animator.fade_out)
+                           .replace(R.id.fragment, new DashboardFragment())
+                           .commit();
 
                }
                break;
             case R.id.bt_noAccount:
+                fTrans.setCustomAnimations(R.animator.fade_in, R.animator.fade_out);
                 fTrans.replace(R.id.fragment, new RegisterFragment());
                 fTrans.commit();
                 break;

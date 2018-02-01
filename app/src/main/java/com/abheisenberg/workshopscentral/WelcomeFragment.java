@@ -20,6 +20,7 @@ import com.abheisenberg.workshopscentral.UserSharedPreferences.UserSharedPref;
 
 import org.w3c.dom.Text;
 
+import static android.content.ContentValues.TAG;
 
 
 /**
@@ -70,10 +71,17 @@ public class WelcomeFragment extends Fragment implements View.OnClickListener {
         bt_registerW.setOnClickListener(this);
         bt_signinW.setOnClickListener(this);
 
+        Log.d(TAG, "Fragments before this: "+getFragmentManager().getBackStackEntryCount());
+
         return rootView;
     }
 
     public void updateUI(boolean isloggedin){
+        /*
+        Check if the user is logged in, if he is, then dont display the login button and if the user is not login,
+        display the login and register button.
+         */
+
         if(isloggedin){
             ll_register.setVisibility(View.GONE);
             ll_signin.setVisibility(View.GONE);
@@ -139,6 +147,7 @@ public class WelcomeFragment extends Fragment implements View.OnClickListener {
                 }
         }
 
+        fTrans.setCustomAnimations(R.animator.fade_in, R.animator.fade_out);
         fTrans.replace(R.id.fragment, nextFrag);
         fTrans.commit();
     }
